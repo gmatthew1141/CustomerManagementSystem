@@ -8,4 +8,9 @@
     <ProjectReference Include="..\CoreBusiness\CoreBusiness.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CustomerUseCase\" />
+    <Folder Include="UseCaseInterfaces\" />
+  </ItemGroup>
+
 </Project>

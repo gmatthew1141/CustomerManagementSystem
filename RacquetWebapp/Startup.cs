@@ -36,6 +36,7 @@ namespace RacquetWebapp {
 
             // Add interfaces dependencies
             services.AddTransient<IViewCustomerUseCase, ViewCustomerUseCase>();
+            services.AddTransient<IAddCustomerUseCase, AddCustomerUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

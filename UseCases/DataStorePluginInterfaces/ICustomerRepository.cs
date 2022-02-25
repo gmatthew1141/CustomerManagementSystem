@@ -10,5 +10,7 @@ namespace UseCases.DataStorePluginInterfaces {
     public interface ICustomerRepository {
 
         IEnumerable<Customer> GetCustomers();
+
+        void AddCustomer(Customer customer);
     }
 }

@@ -31,7 +31,7 @@ namespace Plugins.DataStore.InMemory {
                     Note = "Note 2"
                 },
                 new Customer {
-                    CustomerId = 2,
+                    CustomerId = 3,
                     Name = "Alexie Conrad",
                     Address = "Some different address, small city somewhere",
                     PhoneNumber = "5552213415",
@@ -39,6 +39,23 @@ namespace Plugins.DataStore.InMemory {
                     Note = "Required assistance regularly"
                 }
             };
+        }
+
+        public void AddCustomer(Customer customer) {
+            int customerId;
+
+            // When the list is not empty
+            if (Customers != null && Customers.Count > 0) {
+                var maxId = Customers.Max(x => x.CustomerId);
+                customerId = ++maxId;
+            } else {
+                customerId = 1;
+            }
+
+            var newCustomer = customer;
+            newCustomer.CustomerId = customerId;
+
+            Customers.Add(newCustomer);
         }
 
         public IEnumerable<Customer> GetCustomers() {

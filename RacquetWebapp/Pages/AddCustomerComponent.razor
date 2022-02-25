@@ -1,0 +1,54 @@
+﻿@page "/addcustomer"
+
+@inject NavigationManager NavigationManager
+@inject IAddCustomerUseCase AddCustomerUseCase
+
+<h3>Add Customer</h3>
+
+@if (customer != null) {
+
+    <EditForm Model="customer" OnValidSubmit="OnValidSubmit">
+        <div>
+            <label for="name">Name</label>
+            <InputText id="name" @bind-Value="customer.Name" class="form-control"></InputText>
+        </div>
+        <div>
+            <label for="address">Address</label>
+            <InputText id="address" @bind-Value="customer.Address" class="form-control"></InputText>
+        </div>
+        <div>
+            <label for="phone">Phone</label>
+            <InputText id="phone" @bind-Value="customer.PhoneNumber" class="form-control"></InputText>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <InputText id="email" @bind-Value="customer.Email" class="form-control"></InputText>
+        </div>
+        <div>
+            <label for="note">Note</label>
+            <InputTextArea id="name" @bind-Value="customer.Note" class="form-control"></InputTextArea>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="OnCancel">Cancel</button>
+    </EditForm>
+}
+
+@code {
+    private Customer customer;
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        customer = new Customer();
+    }
+
+    private void OnValidSubmit() {
+        AddCustomerUseCase.Execute(customer);
+        NavigationManager.NavigateTo("/customers");
+    }
+
+    private void OnCancel() {
+        NavigationManager.NavigateTo("/customers");
+    }
+
+}
