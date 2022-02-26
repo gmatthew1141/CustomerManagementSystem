@@ -1,9 +1,10 @@
-﻿@page "/addcustomer"
+﻿@page "/editcustomer/{customerId}"
 
+@inject IEditCustomerUseCase EditCustomerUseCase
+@inject IGetCustomerByIdUseCase GetCustomerByIdUseCase
 @inject NavigationManager NavigationManager
-@inject IAddCustomerUseCase AddCustomerUseCase
 
-<h3>Add Customer</h3>
+<h3>Edit Customer</h3>
 
 @if (customer != null) {
 
@@ -38,15 +39,26 @@
 }
 
 @code {
+    [Parameter]
+    public string customerId { get; set; }
+
     private Customer customer;
 
     protected override void OnInitialized() {
         base.OnInitialized();
-        customer = new Customer();
+    }
+
+    protected override void OnParametersSet() {
+        base.OnParametersSet();
+
+        if (int.TryParse(customerId, out int id)) {
+            customer = GetCustomerByIdUseCase.GetCustomerById(id);
+        }
+
     }
 
     private void OnValidSubmit() {
-        AddCustomerUseCase.Execute(customer);
+        EditCustomerUseCase.Execute(customer);
         NavigationManager.NavigateTo("/customers");
     }
 

@@ -58,8 +58,32 @@ namespace Plugins.DataStore.InMemory {
             Customers.Add(newCustomer);
         }
 
+        public void UpdateCustomer(Customer customer) {
+            var cust = GetCustomerById(customer.CustomerId);
+
+            if (cust != null) {
+                cust.Name = customer.Name;
+                cust.Address = customer.Address;
+                cust.PhoneNumber = customer.PhoneNumber;
+                cust.Email = customer.Email;
+                cust.Note = customer.Note;
+            }
+        }
+
+        public Customer GetCustomerById(int customerId) {
+            return Customers.Find(x => x.CustomerId == customerId);
+        }
+
         public IEnumerable<Customer> GetCustomers() {
             return Customers;
+        }
+
+        public void RemoveCustomer(int customerId) {
+            var customer = GetCustomerById(customerId);
+
+            if (customer != null) {
+                Customers.Remove(customer);
+            }
         }
     }
 }

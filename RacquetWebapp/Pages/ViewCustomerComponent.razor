@@ -2,6 +2,7 @@
 
 @inject NavigationManager NavigationManager
 @inject IViewCustomerUseCase ViewCustomerUseCase
+@inject IRemoveCustomerUseCase RemoveCustomerUseCase
 
 <h3>Customer List</h3>
 
@@ -12,7 +13,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Address</th>
             <th>Phone Number</th>
@@ -25,13 +25,15 @@
         <tbody>
             @foreach (var cust in customers) {
                 <tr>
-                    <th>@cust.CustomerId</th>
                     <th>@cust.Name</th>
                     <th>@cust.Address</th>
                     <th>@cust.PhoneNumber</th>
                     <th>@cust.Email</th>
                     <th>@cust.Note</th>
-                    <th>Edit / Remove</th>
+                    <th>
+                        <button type="button" class="btn btn-link" @onclick="@(() => OnClickEditBtn(cust.CustomerId))">Edit</button>/
+                        <button type="button" class="btn btn-link" @onclick="@(() => OnClickRemoveBtn(cust.CustomerId))">Remove</button>
+                    </th>
                 </tr>
             }
         </tbody>
@@ -48,5 +50,13 @@
 
     private void OnClickAddCustomer() {
         NavigationManager.NavigateTo("/addcustomer");
+    }
+
+    private void OnClickEditBtn(int customerId) {
+        NavigationManager.NavigateTo($"/editcustomer/{customerId}");
+    }
+
+    private void OnClickRemoveBtn(int customerId) {
+        RemoveCustomerUseCase.Execute(customerId);
     }
 }

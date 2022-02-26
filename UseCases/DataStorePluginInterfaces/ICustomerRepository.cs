@@ -12,5 +12,11 @@ namespace UseCases.DataStorePluginInterfaces {
         IEnumerable<Customer> GetCustomers();
 
         void AddCustomer(Customer customer);
+
+        void UpdateCustomer(Customer customer);
+
+        Customer GetCustomerById(int customerId);
+
+        void RemoveCustomer(int customerId);
     }
 }
