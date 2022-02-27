@@ -1,0 +1,160 @@
+﻿@inject IViewCustomerUseCase ViewCustomerUseCase
+@inject IGetTimestampUseCase GetTimestampUseCase
+@inject IAddBookingUseCase AddBookingUseCase
+@inject NavigationManager NavigationManager
+
+<EditForm Model="booking" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+
+    @if (!string.IsNullOrEmpty(errorMessage)) {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <div>
+        <label for="name">Customer Name</label>
+        @if (customers != null) {
+            <select id="name" class="custom-select" @bind="booking.CustomerId">
+                <option selected></option>
+                @foreach (var cust in customers) {
+                    <option value="@cust.CustomerId">@cust.Name</option>
+                }
+            </select>
+        } else {
+            <div>No customers available</div>
+        }
+    </div>
+
+    <br />
+
+    <div class="row time-duration-container">
+        <div class="col">
+            <label for="starttime" class="align-middle">Start Time</label>
+            @if (timestamps != null) {
+
+                <select id="starttime" class="custom-select" @bind="booking.StartTime">
+                    <option selected></option>
+                    @foreach (var timestamp in timestamps) {
+                        <option value="@timestamp.Key">@timestamp.Value</option>
+                    }
+                </select>
+            } else {
+                <div>No timestamps available.</div>
+            }
+        </div>
+
+        <div class="col">
+            <label for="duration" class="row">Duration</label>
+            <div class="row">
+                <InputNumber id="duration" @bind-Value="booking.Duration" class="form-control col"></InputNumber>
+                <div class="input-group-append">
+                    <span class="input-group-text">Hours</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row type-court-container">
+        <div class="col">
+            <label for="sporttype">Sport type</label>
+            <select id="sporttype" class="custom-select" @bind="booking.SportType">
+                @foreach (var sport in Enum.GetValues(typeof(SportType))) {
+                    <option value="@sport">@sport.ToString()</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label for="court">Court #</label>
+            <select id="court" class="custom-select" @bind="booking.CourtNum">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div class="row date-num-container">
+        <div class="col">
+            <label for="startdate">Start date</label>
+            <input type="date" id="startdate" @bind-value="booking.StartDate" class="form-control" />
+        </div>
+        <div class="col">
+            <label for="numplay"># Play</label>
+            <InputNumber id="numplay" @bind-Value="booking.NumOfPlay" class="form-control"></InputNumber>
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <label for="note">Note</label>
+        <InputTextArea id="note" @bind-Value="booking.Note" class="form-control"></InputTextArea>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-secondary" @onclick="OnCancelButton">Cancel</button>
+</EditForm>
+
+@code {
+
+    private Booking booking;
+    private IEnumerable<Customer> customers;
+    private IEnumerable<KeyValuePair<int, string>> timestamps;
+
+    [Parameter]
+    public EventCallback<List<Booking>> BookingsMade { get; set; }
+
+    private List<Booking> newBookings;
+
+    private string errorMessage;
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        InitializeNewBooking(null);
+
+        customers = ViewCustomerUseCase.Execute();
+        timestamps = GetTimestampUseCase.GetTimestamps();
+
+        newBookings = new List<Booking>();
+    }
+
+    private void OnValidSubmit() {
+        // Check if user choose a customer or not
+        if (booking.CustomerId == 0) {
+            errorMessage = "Please select a customer";
+        }
+
+        // Check if num of play and duration > 0 or not
+        if (booking.NumOfPlay <= 0 || booking.Duration <= 0) {
+            errorMessage = "Duration and # Play must be larger than 0.";
+            return;
+        }
+
+        AddBookingUseCase.Execute(booking);
+        newBookings.Add(booking);
+        OnAddNewBooking();
+        InitializeNewBooking(booking.CustomerId);
+    }
+
+    private void OnAddNewBooking() {
+        BookingsMade.InvokeAsync(newBookings);
+    }
+
+    private void InitializeNewBooking(int? customerId) {
+        booking = new Booking();
+        if (customerId != null) {
+            booking.CustomerId = customerId.Value;
+        }
+        booking.CourtNum = 1;
+        booking.StartDate = DateTime.Today;
+    }
+
+    private void OnCancelButton() {
+        NavigationManager.NavigateTo("/bookings");
+    }
+}

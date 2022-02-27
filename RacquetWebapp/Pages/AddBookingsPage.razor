@@ -1,0 +1,22 @@
+﻿@page "/addbookings"
+
+<h3>Add Bookings</h3>
+
+<br />
+
+<div class="row">
+    <div class="col-4">
+        <AddBookingFormComponent BookingsMade="SetNewBookings"></AddBookingFormComponent>
+    </div>
+    <div class="col">
+        <AddBookingListComponent NewBookings="newBookings"></AddBookingListComponent>
+    </div>
+</div>
+
+@code {
+    private List<Booking> newBookings;
+
+    private void SetNewBookings(List<Booking> bookings) {
+        newBookings = bookings;
+    }
+}

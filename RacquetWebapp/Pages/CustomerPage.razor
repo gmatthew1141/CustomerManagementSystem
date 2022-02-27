@@ -8,8 +8,9 @@
 
 <br />
 
-<button class="btn btn-primary" type="button" @onclick="OnClickAddCustomer">Add Customer</button>
-
+<button class="btn btn-primary align-self-end" type="button" @onclick="OnClickAddCustomer">Add Customer</button>
+<br />
+<br />
 <table class="table">
     <thead>
         <tr>
@@ -25,15 +26,15 @@
         <tbody>
             @foreach (var cust in customers) {
                 <tr>
-                    <th>@cust.Name</th>
-                    <th>@cust.Address</th>
-                    <th>@cust.PhoneNumber</th>
-                    <th>@cust.Email</th>
-                    <th>@cust.Note</th>
-                    <th>
+                    <td>@cust.Name</td>
+                    <td>@cust.Address</td>
+                    <td>@cust.PhoneNumber</td>
+                    <td>@cust.Email</td>
+                    <td>@cust.Note</td>
+                    <td>
                         <button type="button" class="btn btn-link" @onclick="@(() => OnClickEditBtn(cust.CustomerId))">Edit</button>/
                         <button type="button" class="btn btn-link" @onclick="@(() => OnClickRemoveBtn(cust.CustomerId))">Remove</button>
-                    </th>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -1,0 +1,38 @@
+﻿@inject IGetCustomerByIdUseCase GetCustomerByIdUseCase
+@inject IGetTimestampUseCase GetTimestampUseCase
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Time</th>
+            <th>Duration</th>
+            <th>Court #</th>
+            <th>Start</th>
+            <th>Play</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (NewBookings != null) {
+            foreach (var booking in NewBookings) {
+                <tr>
+                    <td>@GetCustomerByIdUseCase.GetCustomerById(booking.CustomerId).Name</td>
+                    <td>@GetTimestampUseCase.GetTimestampByKey(booking.StartTime)</td>
+                    <td>@booking.Duration</td>
+                    <td>@(booking.SportType + " " + booking.CourtNum.ToString())</td>
+                    <td>@booking.StartDate.ToString("ddd, dd/MM/yy")</td>
+                    <td>@booking.NumOfPlay</td>
+                    <td>@booking.Note</td>
+                </tr>
+
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<Booking> NewBookings { get; set; }
+
+}

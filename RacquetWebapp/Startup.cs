@@ -33,6 +33,7 @@ namespace RacquetWebapp {
 
             // Add in memory repository dependency
             services.AddScoped<ICustomerRepository, CustomerInMemoryRepository>();
+            services.AddScoped<IBookingRepository, BookingInMemoryRepository>();
 
             // Add interfaces dependencies
             services.AddTransient<IViewCustomerUseCase, ViewCustomerUseCase>();
@@ -40,6 +41,9 @@ namespace RacquetWebapp {
             services.AddTransient<IEditCustomerUseCase, EditCustomerUseCase>();
             services.AddTransient<IGetCustomerByIdUseCase, GetCustomerByIdUseCase>();
             services.AddTransient<IRemoveCustomerUseCase, RemoveCustomerUseCase>();
+            services.AddTransient<IViewBookingsUseCase, ViewBookingsUseCase>();
+            services.AddTransient<IGetTimestampUseCase, GetTimestampUseCase>();
+            services.AddTransient<IAddBookingUseCase, AddBookingUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
