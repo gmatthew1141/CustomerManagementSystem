@@ -1,0 +1,45 @@
+﻿@inject IGetBookingsByDateUseCase GetBookingsBydateUseCase
+@inject IGetTimestampUseCase GetTimestampUseCase
+
+<h3>Squash</h3>
+
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th class="col-1">Time</th>
+            <th class="col-2">1</th>
+            <th class="col-2">2</th>
+            <th class="col-2"></th>
+            <th class="col-2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (bookings != null && timestamps != null) {
+            @for (int i = 0; i < 19; i++) {
+                <tr>
+                    <td>@(timestamps[i] + " - " + timestamps[i + 1])</td>
+                    <td style=@(CheckIfBooked(1, i) ? "background-color:cyan" : "")></td>
+                    <td style=@(CheckIfBooked(2, i) ? "background-color:cyan" : "")></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    private IEnumerable<Booking> bookings;
+
+    private Dictionary<int, string> timestamps;
+
+    protected override void OnParametersSet() {
+        base.OnParametersSet();
+        bookings = GetBookingsBydateUseCase.GetBookingsByDate(DateTime.Today, SportType.Squash);
+        timestamps = GetTimestampUseCase.GetTimestamps().ToDictionary(x => x.Key, x => x.Value);
+    }
+
+    private bool CheckIfBooked(int courtNum, int time) {
+        return bookings.FirstOrDefault(x => x.CourtNum == courtNum && time >= x.StartTime && time < x.EndTime) != null ? true : false;
+    }
+}

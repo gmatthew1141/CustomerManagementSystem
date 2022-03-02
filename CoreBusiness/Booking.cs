@@ -20,6 +20,8 @@ namespace CoreBusiness {
         [Required]
         public int Duration { get; set; }
 
+        public int EndTime { get; set; }
+
         [Required]
         public SportType SportType { get; set; }
 

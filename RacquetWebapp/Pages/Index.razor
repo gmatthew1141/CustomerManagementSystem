@@ -1,56 +1,11 @@
 ﻿@page "/"
 
-<h1>Home page</h1>
-
-<div>
-    Today's date here <br />
-    Tennis
-</div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th class="col-1 text-center">Time</th>
-            <th class="col-2 text-center">1</th>
-            <th class="col-2 text-center">2</th>
-            <th class="col-2 text-center">3</th>
-            <th class="col-2 text-center">4</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>05:00-06:00</td>
-            <td style="background-color:darkred"></td>
-            <td style="background-color:aquamarine"></td>
-            <td style="background-color:black"></td>
-            <td style="background-color:beige"></td>
-        </tr>
-    </tbody>
-</table>
+<h3>Schedule for @DateTime.Today.ToString("dddd, dd - MM - yyyy")</h3>
 
 <br />
 
-<div>
-    Squash
-</div>
+<MainPageTennisTableComponent></MainPageTennisTableComponent>
 
-<table class="table text-center">
-    <thead>
-        <tr>
-            <th class="col-1">Time</th>
-            <th class="col-2">1</th>
-            <th class="col-2">2</th>
-            <th class="col-2"></th>
-            <th class="col-2"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>05:00-06:00</td>
-            <td style="background-color:darkred"></td>
-            <td style="background-color:aquamarine"></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
+<br />
+
+<MainPageSquashTableComponent></MainPageSquashTableComponent>
