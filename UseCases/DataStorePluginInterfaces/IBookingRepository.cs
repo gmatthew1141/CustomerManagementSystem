@@ -16,5 +16,13 @@ namespace UseCases.DataStorePluginInterfaces {
         IEnumerable<KeyValuePair<int, string>> GetTimestamps();
 
         void AddBooking(Booking booking);
+
+        void UpdateBooking(Booking booking);
+
+        Booking GetBookingById(int bookingId);
+
+        void RemoveBooking(int id);
+
+        IEnumerable<Booking> GetBookingByDate(DateTime date, SportType type);
     }
 }

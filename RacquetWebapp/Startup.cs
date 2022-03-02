@@ -44,6 +44,10 @@ namespace RacquetWebapp {
             services.AddTransient<IViewBookingsUseCase, ViewBookingsUseCase>();
             services.AddTransient<IGetTimestampUseCase, GetTimestampUseCase>();
             services.AddTransient<IAddBookingUseCase, AddBookingUseCase>();
+            services.AddTransient<IEditBookingUseCase, EditBookingUseCase>();
+            services.AddTransient<IGetBookingByIdUseCase, GetBookingByIdUseCase>();
+            services.AddTransient<IRemoveBookingUseCase, RemoveBookingUseCase>();
+            services.AddTransient<IGetBookingsByDateUseCase, GetBookingsByDateUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

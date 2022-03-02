@@ -94,7 +94,7 @@ namespace Plugins.DataStore.InMemory {
             }
 
             // Calculate expiration date
-            var expirationDate = booking.StartDate.AddDays(7 * (booking.NumOfPlay - 1));
+            var expirationDate = GetExpirationDate(booking.StartDate, booking.NumOfPlay);
 
             var newBooking = new Booking {
                 BookingId = bookingId,
@@ -114,6 +114,28 @@ namespace Plugins.DataStore.InMemory {
             Bookings.Add(newBooking);
         }
 
+        public void UpdateBooking(Booking booking) {
+            var targetBooking = Bookings.Find(x => x.BookingId == booking.BookingId);
+
+            if (targetBooking != null) {
+                targetBooking.CustomerId = booking.CustomerId;
+                targetBooking.StartTime = booking.StartTime;
+                targetBooking.Duration = booking.Duration;
+                targetBooking.SportType = booking.SportType;
+                targetBooking.CourtNum = booking.CourtNum;
+                targetBooking.StartDate = booking.StartDate;
+                targetBooking.ExpirationDate = GetExpirationDate(booking.StartDate, booking.NumOfPlay);
+                targetBooking.NumOfPlay = booking.NumOfPlay;
+                targetBooking.NumOfPlayed = booking.NumOfPlayed;
+                targetBooking.NumOfPlayedLeft = booking.NumOfPlay - booking.NumOfPlayed;
+                targetBooking.Note = booking.Note;
+            }
+        }
+
+        public Booking GetBookingById(int bookingId) {
+            return Bookings.Find(x => x.BookingId == bookingId);
+        }
+
         public IEnumerable<Booking> GetBookings() {
             return Bookings;
         }
@@ -127,10 +149,21 @@ namespace Plugins.DataStore.InMemory {
         }
 
         public IEnumerable<KeyValuePair<int, string>> GetTimestamps() {
-            if (Timestamps != null) {
-                return Timestamps;
-            }
-            return null;
+            return Timestamps != null ? Timestamps : null;
+        }
+
+        private DateTime GetExpirationDate(DateTime startDate, int numOfPlay) {
+            return startDate.AddDays(7 * (numOfPlay - 1));
+        }
+
+        public void RemoveBooking(int id) {
+            Bookings.Remove(GetBookingById(id));
+        }
+
+        public IEnumerable<Booking> GetBookingByDate(DateTime date, SportType type) {
+            return Bookings.FindAll(x => x.SportType == type
+                && x.ExpirationDate > date
+                && x.StartDate.DayOfWeek == date.DayOfWeek);
         }
     }
 }

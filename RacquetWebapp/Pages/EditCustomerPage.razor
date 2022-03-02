@@ -46,13 +46,20 @@
 
     protected override void OnInitialized() {
         base.OnInitialized();
+        customer = new Customer();
     }
 
     protected override void OnParametersSet() {
         base.OnParametersSet();
 
         if (int.TryParse(customerId, out int id)) {
-            customer = GetCustomerByIdUseCase.GetCustomerById(id);
+            var oldCustomer = GetCustomerByIdUseCase.GetCustomerById(id);
+            customer.CustomerId = oldCustomer.CustomerId;
+            customer.Name = oldCustomer.Name;
+            customer.Address = oldCustomer.Address;
+            customer.PhoneNumber = oldCustomer.PhoneNumber;
+            customer.Email = oldCustomer.Email;
+            customer.Note = oldCustomer.Note;
         }
 
     }

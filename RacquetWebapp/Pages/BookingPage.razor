@@ -3,6 +3,7 @@
 @inject IViewBookingsUseCase ViewBookingsUseCase
 @inject IGetCustomerByIdUseCase GetCustomerByIdUseCase
 @inject IGetTimestampUseCase GetTimestampUseCase
+@inject IRemoveBookingUseCase RemoveBookingUseCase
 @inject NavigationManager NavigationManager
 
 <h3>Bookings List</h3>
@@ -19,7 +20,6 @@
             <th>Name</th>
             <th>Time</th>
             <th>Duration</th>
-            <th>Sport</th>
             <th>Court</th>
             <th>Start</th>
             <th>Expired</th>
@@ -27,6 +27,7 @@
             <th>Played</th>
             <th>Remain</th>
             <th>Note</th>
+            <th>Option</th>
         </tr>
     </thead>
     <tbody>
@@ -36,14 +37,17 @@
                     <td>@(GetCustomerByIdUseCase.GetCustomerById(book.CustomerId).Name)</td>
                     <td>@GetTimestampUseCase.GetTimestampByKey(book.StartTime)</td>
                     <td>@book.Duration</td>
-                    <td>@book.SportType</td>
-                    <td>@book.CourtNum</td>
+                    <td>@(book.SportType + " " + book.CourtNum)</td>
                     <td>@book.StartDate.ToString("ddd, dd/MM/yy")</td>
                     <td>@book.ExpirationDate.ToString("ddd, dd/MM/yy")</td>
                     <td>@book.NumOfPlay</td>
                     <td>@book.NumOfPlayed</td>
                     <td>@book.NumOfPlayedLeft</td>
                     <td>@book.Note</td>
+                    <td>
+                        <button type="button" class="btn btn-link" @onclick="(() => OnClickEditButton(book.BookingId))">Edit</button> |
+                        <button type="button" class="btn btn-link" @onclick="(() => OnClickRemoveButton(book.BookingId))">Remove</button>
+                    </td>
                 </tr>
             }
         }
@@ -61,5 +65,13 @@
 
     private void OnClickAddButton() {
         NavigationManager.NavigateTo("/addbookings");
+    }
+
+    private void OnClickEditButton(int bookingId) {
+        NavigationManager.NavigateTo($"/editbooking/{bookingId}");
+    }
+
+    private void OnClickRemoveButton(int bookingId) {
+        RemoveBookingUseCase.Execute(bookingId);
     }
 }

@@ -1,0 +1,158 @@
+﻿@page "/editbooking/{bookingId}"
+
+@inject IGetBookingByIdUseCase GetBookingByIdUseCase
+@inject IViewCustomerUseCase ViewCustomerUseCase
+@inject IGetTimestampUseCase GetTimestampUseCase
+@inject IEditBookingUseCase EditBookingUseCase
+@inject NavigationManager NavigationManager
+
+<h3>Edit Booking</h3>
+
+<EditForm Model="oldBooking" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+
+    @if (!string.IsNullOrEmpty(errorMessage)) {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <div>
+        <label for="name">Customer Name</label>
+        @if (customers != null) {
+            <select id="name" class="custom-select" @bind="oldBooking.CustomerId">
+                <option selected></option>
+                @foreach (var cust in customers) {
+                    <option value="@cust.CustomerId">@cust.Name</option>
+                }
+            </select>
+        } else {
+            <div>No customers available</div>
+        }
+    </div>
+
+    <br />
+
+    <div class="row time-duration-container">
+        <div class="col">
+            <label for="starttime" class="align-middle">Start Time</label>
+            @if (timestamps != null) {
+
+                <select id="starttime" class="custom-select" @bind="oldBooking.StartTime">
+                    <option selected></option>
+                    @foreach (var timestamp in timestamps) {
+                        <option value="@timestamp.Key">@timestamp.Value</option>
+                    }
+                </select>
+            } else {
+                <div>No timestamps available.</div>
+            }
+        </div>
+
+        <div class="col">
+            <label for="duration" class="row">Duration</label>
+            <div class="row">
+                <InputNumber id="duration" @bind-Value="oldBooking.Duration" class="form-control col"></InputNumber>
+                <div class="input-group-append">
+                    <span class="input-group-text">Hours</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row type-court-container">
+        <div class="col">
+            <label for="sporttype">Sport type</label>
+            <select id="sporttype" class="custom-select" @bind="oldBooking.SportType">
+                @foreach (var sport in Enum.GetValues(typeof(SportType))) {
+                    <option value="@sport">@sport.ToString()</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label for="court">Court #</label>
+            <select id="court" class="custom-select" @bind="oldBooking.CourtNum">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div class="row date-num-container">
+        <div class="col">
+            <label for="startdate">Start date</label>
+            <input type="date" id="startdate" @bind-value="oldBooking.StartDate" class="form-control" />
+        </div>
+        <div class="col">
+            <label for="numplay"># Play</label>
+            <InputNumber id="numplay" @bind-Value="oldBooking.NumOfPlay" class="form-control"></InputNumber>
+        </div>
+        <div class="col">
+            <label for="numplayed"># Play</label>
+            <InputNumber id="numplayed" @bind-Value="oldBooking.NumOfPlayed" class="form-control"></InputNumber>
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <label for="note">Note</label>
+        <InputTextArea id="note" @bind-Value="oldBooking.Note" class="form-control"></InputTextArea>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-secondary" @onclick="OnCancelButton">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string bookingId { get; set; }
+
+    private Booking oldBooking;
+
+    private IEnumerable<Customer> customers;
+    private IEnumerable<KeyValuePair<int, string>> timestamps;
+
+    private string errorMessage;
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        oldBooking = new Booking();
+        customers = ViewCustomerUseCase.Execute();
+        timestamps = GetTimestampUseCase.GetTimestamps();
+    }
+
+    protected override void OnParametersSet() {
+        base.OnParametersSet();
+        if (int.TryParse(bookingId, out int id)) {
+            var booking = GetBookingByIdUseCase.GetBooking(id);
+            oldBooking.BookingId = booking.BookingId;
+            oldBooking.CustomerId = booking.CustomerId;
+            oldBooking.Duration = booking.Duration;
+            oldBooking.SportType = booking.SportType;
+            oldBooking.CourtNum = booking.CourtNum;
+            oldBooking.StartDate = booking.StartDate;
+            oldBooking.ExpirationDate = booking.ExpirationDate;
+            oldBooking.NumOfPlay = booking.NumOfPlay;
+            oldBooking.NumOfPlayed = booking.NumOfPlayed;
+            oldBooking.NumOfPlayedLeft = booking.NumOfPlay - booking.NumOfPlayed;
+            oldBooking.Note = booking.Note;
+        }
+
+    }
+
+    private void OnValidSubmit() {
+        EditBookingUseCase.Execute(oldBooking);
+        NavigationManager.NavigateTo("/bookings");
+    }
+
+    private void OnCancelButton() {
+        NavigationManager.NavigateTo("/bookings");
+    }
+
+}
