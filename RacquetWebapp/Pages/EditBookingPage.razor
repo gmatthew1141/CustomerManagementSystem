@@ -36,7 +36,6 @@
         <div class="col">
             <label for="starttime" class="align-middle">Start Time</label>
             @if (timestamps != null) {
-
                 <select id="starttime" class="custom-select" @bind="oldBooking.StartTime">
                     <option selected></option>
                     @foreach (var timestamp in timestamps) {

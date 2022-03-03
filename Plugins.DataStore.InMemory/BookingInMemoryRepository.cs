@@ -16,76 +16,31 @@ namespace Plugins.DataStore.InMemory {
             Bookings = new List<Booking> {
                 new Booking {
                     BookingId = 1,
-                    CustomerId = 1,
-                    StartTime = 0,
-                    Duration = 2,
-                    EndTime = 2,
-                    SportType = SportType.Tennis,
-                    CourtNum = 2,
-                    StartDate = DateTime.Today.AddDays(5),
-                    ExpirationDate = DateTime.Today.AddDays(12),
-                    NumOfPlay = 1,
-                    NumOfPlayed = 0,
-                    NumOfPlayedLeft = 1,
-                    Note = ""
-                },
-                new Booking {
-                    BookingId = 2,
-                    CustomerId = 3,
-                    StartTime = 1,
-                    Duration = 2,
-                    EndTime = 3,
-                    SportType = SportType.Squash,
-                    CourtNum = 2,
-                    StartDate = DateTime.Today.AddDays(3),
-                    ExpirationDate = DateTime.Today.AddDays(10),
-                    NumOfPlay = 1,
-                    NumOfPlayed = 0,
-                    NumOfPlayedLeft = 1,
-                    Note = "Some long note that will be filled by someone who is still alive"
-                },
-                new Booking {
-                    BookingId = 3,
                     CustomerId = 2,
-                    StartTime = 2,
-                    Duration = 2,
-                    EndTime = 4,
-                    SportType = SportType.Tennis,
-                    CourtNum = 2,
-                    StartDate = DateTime.Today.AddDays(-7),
-                    ExpirationDate = DateTime.Today.AddDays(14),
-                    NumOfPlay = 3,
-                    NumOfPlayed = 1,
-                    NumOfPlayedLeft = 2,
-                    Note = "Weirdly short note"
-                },
-                new Booking {
-                    BookingId = 4,
-                    CustomerId = 2,
-                    StartTime = 6,
-                    Duration = 3,
+                    StartTime = 5,
+                    Duration = 1,
                     EndTime = 9,
                     SportType = SportType.Tennis,
                     CourtNum = 1,
-                    StartDate = DateTime.Today.AddDays(-7),
-                    ExpirationDate = DateTime.Today.AddDays(14),
-                    NumOfPlay = 3,
-                    NumOfPlayed = 1,
+                    StartDate = DateTime.Today,
+                    ExpirationDate = DateTime.Today.AddDays(7),
+                    NumOfPlay = 2,
+                    NumOfPlayed = 0,
                     NumOfPlayedLeft = 2,
-                    Note = "Weirdly short note 2"
+                    Note = "Weirdly short note 1"
                 },
                 new Booking {
-                    BookingId = 5,
+                    BookingId = 2,
                     CustomerId = 2,
                     StartTime = 6,
-                    Duration = 3,
+                    Duration = 1,
                     EndTime = 9,
                     SportType = SportType.Tennis,
                     CourtNum = 3,
-                    StartDate = DateTime.Today.AddDays(-7),
-                    ExpirationDate = DateTime.Today.AddDays(14),
-                    NumOfPlay = 3,
-                    NumOfPlayed = 1,
+                    StartDate = DateTime.Today,
+                    ExpirationDate = DateTime.Today.AddDays(7),
+                    NumOfPlay = 2,
+                    NumOfPlayed = 0,
                     NumOfPlayedLeft = 2,
                     Note = "Weirdly short note 3"
                 },
@@ -119,7 +74,7 @@ namespace Plugins.DataStore.InMemory {
             #endregion Timestamps Initialization
         }
 
-        public void AddBooking(Booking booking) {
+        public Booking AddBooking(Booking booking) {
             int bookingId;
 
             if (Bookings != null && Bookings.Count > 0) {
@@ -149,6 +104,8 @@ namespace Plugins.DataStore.InMemory {
             };
 
             Bookings.Add(newBooking);
+
+            return newBooking;
         }
 
         public void UpdateBooking(Booking booking) {

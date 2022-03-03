@@ -10,13 +10,15 @@ namespace UseCases {
 
     public class AddBookingUseCase : IAddBookingUseCase {
         private readonly IBookingRepository bookingRepository;
+        private readonly IAttendanceRepository attendanceRepository;
 
-        public AddBookingUseCase(IBookingRepository bookingRepository) {
+        public AddBookingUseCase(IBookingRepository bookingRepository, IAttendanceRepository attendanceRepository) {
             this.bookingRepository = bookingRepository;
+            this.attendanceRepository = attendanceRepository;
         }
 
         public void Execute(Booking booking) {
-            bookingRepository.AddBooking(booking);
+            attendanceRepository.GenerateAttendance(bookingRepository.AddBooking(booking));
         }
     }
 }

@@ -127,6 +127,7 @@
         // Check if user choose a customer or not
         if (booking.CustomerId == 0) {
             errorMessage = "Please select a customer";
+            return;
         }
 
         // Check if num of play and duration > 0 or not
