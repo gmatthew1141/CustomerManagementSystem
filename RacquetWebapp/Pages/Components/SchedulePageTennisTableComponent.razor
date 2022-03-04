@@ -1,40 +1,147 @@
-﻿@inject IGetBookingsByDateUseCase GetBookingsBydateUseCase
-@inject IGetTimestampUseCase GetTimestampUseCase
+﻿@inject IGetScheduleUseCase GetScheduleUseCase
+@inject IGenerateScheduleByDateUseCase GenerateScheduleByDateUseCase
+@inject IGetCustomerByIdUseCase GetCustomerByIdUseCase
+@inject IGetBookingByIdUseCase GetBookingByIdUseCase
+@inject IUpdateAttendanceUseCase UpdateAttendanceUseCase
 
 <h3>Tennis</h3>
 
-<table class="table">
+<table class="table text-md-center ">
     <thead>
         <tr>
-            <th class="col-1 text-center">Time</th>
-            <th class="col-2 text-center">1</th>
-            <th class="col-2 text-center">2</th>
-            <th class="col-2 text-center">3</th>
-            <th class="col-2 text-center">4</th>
-            <th class="col-1 text-center">Total Absence</th>
+            <th class="col-1">Time</th>
+            <th class="col-2">1</th>
+            <th class="col-2">2</th>
+            <th class="col-2">3</th>
+            <th class="col-2">4</th>
+            <th class="col-1">Total</th>
         </tr>
     </thead>
     <tbody>
-        @if (bookings != null && timestamps != null) {
-            int count = 0;
-            @for (int i = 0; i < 19; i++) {
+        @if (schedules != null) {
+            foreach (var schedule in schedules) {
                 <tr>
-                    <td>@(timestamps[i] + " - " + timestamps[i + 1])</td>
-                    <td style=@(CheckIfBooked(1, i) ? "background-color:cyan" : "")></td>
-                    <td style=@(CheckIfBooked(2, i) ? "background-color:cyan" : "")></td>
-                    <td style=@(CheckIfBooked(3, i) ? "background-color:cyan" : "")></td>
-                    <td style=@(CheckIfBooked(4, i) ? "background-color:cyan" : "")></td>
-                    <td>@count</td>
+                    <td>@schedule.Timestamp</td>
+                    @if (schedule.Court1 == null) {
+                        <td></td>
+                    } else {
+                        @if (schedule.Court1.Present) {
+                            totalCount++;
+                        } else {
+                            if (totalCount > 0) {
+                                totalCount--;
+                            }
+                        }
+                        <td style=@(schedule.Court1.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+
+                            <div class="row">
+                                <label class="col">
+                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court1.BookingId).CustomerId).Name
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="col">
+                                    @GetBookingByIdUseCase.GetBooking(schedule.Court1.BookingId).ExpirationDate.ToString("dd/MM/yy")
+                                </label>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-block btn-dark" @onclick="() => UpdateAttendance(schedule, schedule.Court1)">Present</button>
+                            </div>
+                        </td>
+                    }
+                    @if (schedule.Court2 == null) {
+                        <td></td>
+                    } else {
+                        @if (schedule.Court2.Present) {
+                            totalCount++;
+                        } else {
+                            if (totalCount > 0) {
+                                totalCount--;
+                            }
+                        }
+                        <td style=@(schedule.Court1.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+
+                            <div class="row">
+                                <label class="col">
+                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court2.BookingId).CustomerId).Name
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="col">
+                                    @GetBookingByIdUseCase.GetBooking(schedule.Court2.BookingId).ExpirationDate.ToString("dd/MM/yy")
+                                </label>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-block btn-dark" @onclick="() => UpdateAttendance(schedule, schedule.Court2)">Present</button>
+                            </div>
+                        </td>
+                    }
+                    @if (schedule.Court3 == null) {
+                        <td></td>
+                    } else {
+                        @if (schedule.Court3.Present) {
+                            totalCount++;
+                        } else {
+                            if (totalCount > 0) {
+                                totalCount--;
+                            }
+                        }
+                        <td style=@(schedule.Court1.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+
+                            <div class="row">
+                                <label class="col">
+                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court3.BookingId).CustomerId).Name
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="col">
+                                    @GetBookingByIdUseCase.GetBooking(schedule.Court3.BookingId).ExpirationDate.ToString("dd/MM/yy")
+                                </label>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-block btn-dark" @onclick="() => UpdateAttendance(schedule, schedule.Court3)">Present</button>
+                            </div>
+                        </td>
+                    }
+                    @if (schedule.Court4 == null) {
+                        <td></td>
+                    } else {
+                        @if (schedule.Court4.Present) {
+                            totalCount++;
+                        } else {
+                            if (totalCount > 0) {
+                                totalCount--;
+                            }
+                        }
+                        <td style=@(schedule.Court1.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+
+                            <div class="row">
+                                <label class="col">
+                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court4.BookingId).CustomerId).Name
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="col">
+                                    @GetBookingByIdUseCase.GetBooking(schedule.Court4.BookingId).ExpirationDate.ToString("dd/MM/yy")
+                                </label>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-block btn-dark" @onclick="() => UpdateAttendance(schedule, schedule.Court4)">Present</button>
+                            </div>
+                        </td>
+                    }
+                    <td>@schedule.TotalAttendance</td>
                 </tr>
             }
-            <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-            </tr>
         }
+        <tr>
+            <td>Total all</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@totalCount</td>
+        </tr>
     </tbody>
 </table>
 
@@ -42,19 +149,19 @@
     [Parameter]
     public DateTime SelectedDate { get; set; }
 
-    private IEnumerable<Booking> bookings;
-    private Dictionary<int, string> timestamps;
+    private IEnumerable<Schedule> schedules;
+
+    private int totalCount = 0;
 
     protected override void OnParametersSet() {
         base.OnParametersSet();
 
-        bookings = GetBookingsBydateUseCase.GetBookingsByDate(DateTime.Today, SportType.Tennis);
-        timestamps = GetTimestampUseCase.GetTimestamps().ToDictionary(x => x.Key, x => x.Value);
-
+        GenerateScheduleByDateUseCase.Execute(SelectedDate, SportType.Tennis);
+        schedules = GetScheduleUseCase.Execute();
     }
 
-    private bool CheckIfBooked(int courtNum, int time) {
-        return bookings.FirstOrDefault(x => x.CourtNum == courtNum && time >= x.StartTime && time < x.EndTime) != null ? true : false;
+    private void UpdateAttendance(Schedule schedule, Attendance attendance) {
+        UpdateAttendanceUseCase.Execute(schedule, attendance);
     }
 
 }

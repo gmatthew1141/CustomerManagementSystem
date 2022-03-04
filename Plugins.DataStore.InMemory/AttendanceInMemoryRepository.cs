@@ -99,5 +99,9 @@ namespace Plugins.DataStore.InMemory {
         public IEnumerable<Attendance> GetAttendanceByDate(DateTime date, SportType type) {
             return Attendances.FindAll(x => x.PlayDate.Equals(date) && x.SportType == type);
         }
+
+        public void UpdateAttendance(Attendance attendance) {
+            attendance.Present = !attendance.Present;
+        }
     }
 }

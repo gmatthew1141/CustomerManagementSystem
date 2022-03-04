@@ -16,5 +16,7 @@ namespace UseCases.DataStorePluginInterfaces {
         IEnumerable<Attendance> GetAttendancesByBookingId(int attendanceId);
 
         IEnumerable<Attendance> GetAttendanceByDate(DateTime date, SportType type);
+
+        void UpdateAttendance(Attendance attendance);
     }
 }
