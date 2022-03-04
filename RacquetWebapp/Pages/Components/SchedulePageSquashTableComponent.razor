@@ -4,7 +4,7 @@
 @inject IGetBookingByIdUseCase GetBookingByIdUseCase
 @inject IUpdateAttendanceUseCase UpdateAttendanceUseCase
 
-<h3 class="text-md-center">Tennis</h3>
+<h3 class="text-md-center">Squash</h3>
 
 <table class="table text-md-center ">
     <thead>
@@ -12,8 +12,8 @@
             <th class="col-1">Time</th>
             <th class="col-2">1</th>
             <th class="col-2">2</th>
-            <th class="col-2">3</th>
-            <th class="col-2">4</th>
+            <th class="col-2"></th>
+            <th class="col-2"></th>
             <th class="col-1">Total</th>
         </tr>
     </thead>
@@ -76,60 +76,8 @@
                             </div>
                         </td>
                     }
-                    @if (schedule.Court3 == null) {
-                        <td></td>
-                    } else {
-                        @if (schedule.Court3.Present) {
-                            totalCount++;
-                        } else {
-                            if (totalCount > 0) {
-                                totalCount--;
-                            }
-                        }
-                        <td style=@(schedule.Court3.Present ? "background-color:deepskyblue" : "background-color:cyan")>
-
-                            <div class="row">
-                                <label class="col">
-                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court3.BookingId).CustomerId).Name
-                                </label>
-                            </div>
-                            <div class="row">
-                                <label class="col">
-                                    @GetBookingByIdUseCase.GetBooking(schedule.Court3.BookingId).ExpirationDate.ToString("dd/MM/yy")
-                                </label>
-                            </div>
-                            <div class="row">
-                                <button type="button" class="btn btn-block btn-dark" @onclick="() => UpdateAttendance(schedule, schedule.Court3)">Present</button>
-                            </div>
-                        </td>
-                    }
-                    @if (schedule.Court4 == null) {
-                        <td></td>
-                    } else {
-                        @if (schedule.Court4.Present) {
-                            totalCount++;
-                        } else {
-                            if (totalCount > 0) {
-                                totalCount--;
-                            }
-                        }
-                        <td style=@(schedule.Court4.Present ? "background-color:deepskyblue" : "background-color:cyan")>
-
-                            <div class="row">
-                                <label class="col">
-                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court4.BookingId).CustomerId).Name
-                                </label>
-                            </div>
-                            <div class="row">
-                                <label class="col">
-                                    @GetBookingByIdUseCase.GetBooking(schedule.Court4.BookingId).ExpirationDate.ToString("dd/MM/yy")
-                                </label>
-                            </div>
-                            <div class="row">
-                                <button type="button" class="btn btn-block btn-dark" @onclick="() => UpdateAttendance(schedule, schedule.Court4)">Present</button>
-                            </div>
-                        </td>
-                    }
+                    <td></td>
+                    <td></td>
                     <td>@schedule.TotalAttendance</td>
                 </tr>
             }
@@ -156,7 +104,7 @@
     protected override void OnParametersSet() {
         base.OnParametersSet();
 
-        GenerateScheduleByDateUseCase.Execute(SelectedDate, SportType.Tennis);
+        GenerateScheduleByDateUseCase.Execute(SelectedDate, SportType.Squash);
         schedules = GetScheduleUseCase.Execute();
     }
 
