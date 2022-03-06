@@ -32,11 +32,14 @@
                                 totalCount--;
                             }
                         }
-                        <td style=@(schedule.Court1.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+                        <td style=@(schedule.Court1.Present ? "background-color:dimgray" : "background-color:cyan")>
 
                             <div class="row">
                                 <label class="col">
-                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court1.BookingId).CustomerId).Name
+                                    <b>
+
+                                        @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court1.BookingId).CustomerId).Name
+                                    </b>
                                 </label>
                             </div>
                             <div class="row">
@@ -158,6 +161,7 @@
 
         GenerateScheduleByDateUseCase.Execute(SelectedDate, SportType.Tennis);
         schedules = GetScheduleUseCase.Execute();
+        StateHasChanged();
     }
 
     private void UpdateAttendance(Schedule schedule, Attendance attendance) {

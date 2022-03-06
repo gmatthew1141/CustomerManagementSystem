@@ -40,5 +40,10 @@ namespace CoreBusiness {
 
         public int NumOfPlayedLeft { get; set; }
         public string Note { get; set; }
+
+        // Navigation property for EF Core
+        public Customer Customer { get; set; }
+
+        public List<Attendance> Attendances { get; set; }
     }
 }

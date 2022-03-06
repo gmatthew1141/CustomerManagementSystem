@@ -14,5 +14,8 @@ namespace CoreBusiness {
         public SportType SportType { get; set; }
         public int CourtNum { get; set; }
         public bool Present { get; set; }
+
+        // Navigation property for EF Core
+        public Booking Booking { get; set; }
     }
 }

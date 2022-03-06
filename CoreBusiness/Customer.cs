@@ -20,5 +20,8 @@ namespace CoreBusiness {
 
         public string Email { get; set; }
         public string Note { get; set; }
+
+        // Navigation property for EF Core
+        public List<Booking> Bookings { get; set; }
     }
 }
