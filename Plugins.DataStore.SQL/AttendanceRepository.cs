@@ -28,9 +28,9 @@ namespace Plugins.DataStore.SQL {
                     };
 
                     db.Attendances.Add(newAttendance);
+                    db.SaveChanges();
                 }
             }
-            db.SaveChanges();
         }
 
         public IEnumerable<Attendance> GetAttendanceByDate(DateTime date, SportType type) {

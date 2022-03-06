@@ -4,14 +4,14 @@
 @inject IViewCustomerUseCase ViewCustomerUseCase
 @inject IRemoveCustomerUseCase RemoveCustomerUseCase
 
-<h3>Customer List</h3>
+<h3><b>Customer List</b></h3>
 
 <br />
 
-<button class="btn btn-primary align-self-end" type="button" @onclick="OnClickAddCustomer">Add Customer</button>
+<button class="btn btn-primary float-right" type="button" @onclick="OnClickAddCustomer">Add Customer</button>
 <br />
 <br />
-<table class="table">
+<table class="table text-center">
     <thead>
         <tr>
             <th>Name</th>
@@ -32,8 +32,7 @@
                     <td>@cust.Email</td>
                     <td>@cust.Note</td>
                     <td>
-                        <button type="button" class="btn btn-link" @onclick="@(() => OnClickEditBtn(cust.CustomerId))">Edit</button>/
-                        <button type="button" class="btn btn-link" @onclick="@(() => OnClickRemoveBtn(cust.CustomerId))">Remove</button>
+                        <button type="button" class="btn btn-link" @onclick="@(() => OnClickEditBtn(cust.CustomerId))">Edit</button>|<button type="button" class="btn btn-link" @onclick="@(() => OnClickRemoveBtn(cust.CustomerId))">Remove</button>
                     </td>
                 </tr>
             }

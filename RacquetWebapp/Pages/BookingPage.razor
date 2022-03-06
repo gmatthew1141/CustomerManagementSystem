@@ -6,15 +6,15 @@
 @inject IRemoveBookingUseCase RemoveBookingUseCase
 @inject NavigationManager NavigationManager
 
-<h3>Bookings List</h3>
+<h3><b>Bookings List</b></h3>
 
 <br />
 
-<button type="button" class="btn btn-primary" @onclick="OnClickAddButton">Create new bookings</button>
+<button type="button" class="btn btn-primary float-right" @onclick="OnClickAddButton">Create new bookings</button>
 <br />
 <br />
 
-<table class="table">
+<table class="table text-center">
     <thead>
         <tr>
             <th>Name</th>
@@ -43,10 +43,9 @@
                     <td>@book.NumOfPlay</td>
                     <td>@book.NumOfPlayed</td>
                     <td>@book.NumOfPlayedLeft</td>
-                    <td>@book.Note</td>
+                    <td class="text-left">@book.Note</td>
                     <td>
-                        <button type="button" class="btn btn-link" @onclick="(() => OnClickEditButton(book.BookingId))">Edit</button> |
-                        <button type="button" class="btn btn-link" @onclick="(() => OnClickRemoveButton(book.BookingId))">Remove</button>
+                        <button type="button" class="btn btn-link" @onclick="(() => OnClickEditButton(book.BookingId))">Edit</button>|<button type="button" class="btn btn-link" @onclick="(() => OnClickRemoveButton(book.BookingId))">Remove</button>
                     </td>
                 </tr>
             }
@@ -60,7 +59,7 @@
 
     protected override void OnInitialized() {
         base.OnInitialized();
-        bookings = ViewBookingsUseCase.Execute();
+        LoadBooking();
     }
 
     private void OnClickAddButton() {
@@ -73,5 +72,11 @@
 
     private void OnClickRemoveButton(int bookingId) {
         RemoveBookingUseCase.Execute(bookingId);
+        LoadBooking();
+    }
+
+    private void LoadBooking() {
+        bookings = ViewBookingsUseCase.Execute();
+
     }
 }

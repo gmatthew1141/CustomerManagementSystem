@@ -45,7 +45,11 @@ namespace Plugins.DataStore.SQL {
         }
 
         public Booking AddBooking(Booking booking) {
+            booking.ExpirationDate = GetExpirationDate(booking.StartDate, booking.NumOfPlay);
+            booking.EndTime = GetEndTime(booking.StartTime, booking.Duration);
+
             db.Bookings.Add(booking);
+            db.SaveChanges();
             return booking;
         }
 
@@ -104,6 +108,14 @@ namespace Plugins.DataStore.SQL {
             } else {
                 booking.NumOfPlayed--;
             }
+        }
+
+        private DateTime GetExpirationDate(DateTime startDate, int numOfPlay) {
+            return startDate.AddDays(7 * (numOfPlay - 1));
+        }
+
+        private int GetEndTime(int startTime, int duration) {
+            return startTime + duration;
         }
     }
 }
