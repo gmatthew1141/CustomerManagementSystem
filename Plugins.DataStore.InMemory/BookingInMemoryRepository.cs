@@ -164,5 +164,15 @@ namespace Plugins.DataStore.InMemory {
         private int GetEndTime(int startTime, int duration) {
             return startTime + duration;
         }
+
+        public void UpdateNumPlayed(int bookingId, bool attendance) {
+            var booking = GetBookingById(bookingId);
+
+            if (attendance) {
+                booking.NumOfPlayed++;
+            } else {
+                booking.NumOfPlayed--;
+            }
+        }
     }
 }

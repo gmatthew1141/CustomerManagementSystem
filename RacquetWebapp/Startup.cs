@@ -38,10 +38,15 @@ namespace RacquetWebapp {
             });
 
             // Add in memory repository dependency
-            services.AddScoped<ICustomerRepository, CustomerInMemoryRepository>();
-            services.AddScoped<IBookingRepository, BookingInMemoryRepository>();
-            services.AddScoped<IAttendanceRepository, AttendanceInMemoryRepository>();
+            //services.AddScoped<ICustomerRepository, CustomerInMemoryRepository>();
+            //services.AddScoped<IBookingRepository, BookingInMemoryRepository>();
+            //services.AddScoped<IAttendanceRepository, AttendanceInMemoryRepository>();
             services.AddScoped<IScheduleRepository, ScheduleInMemoryRepository>();
+
+            // Add dependency for EF Core data store for SQL
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
             // Add interfaces dependencies
             services.AddTransient<IViewCustomerUseCase, ViewCustomerUseCase>();

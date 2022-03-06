@@ -25,18 +25,13 @@
                     @if (schedule.Court1 == null) {
                         <td></td>
                     } else {
-                        @if (schedule.Court1.Present) {
-                            totalCount++;
-                        } else {
-                            if (totalCount > 0) {
-                                totalCount--;
-                            }
-                        }
-                        <td style=@(schedule.Court1.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+                        <td style=@(schedule.Court1.Present ? "background-color:dimgray" : "background-color:cyan")>
 
                             <div class="row">
                                 <label class="col">
-                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court1.BookingId).CustomerId).Name
+                                    <b>
+                                        @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court1.BookingId).CustomerId).Name
+                                    </b>
                                 </label>
                             </div>
                             <div class="row">
@@ -52,18 +47,13 @@
                     @if (schedule.Court2 == null) {
                         <td></td>
                     } else {
-                        @if (schedule.Court2.Present) {
-                            totalCount++;
-                        } else {
-                            if (totalCount > 0) {
-                                totalCount--;
-                            }
-                        }
-                        <td style=@(schedule.Court2.Present ? "background-color:deepskyblue" : "background-color:cyan")>
+                        <td style=@(schedule.Court2.Present ? "background-color:dimgray" : "background-color:cyan")>
 
                             <div class="row">
                                 <label class="col">
-                                    @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court2.BookingId).CustomerId).Name
+                                    <b>
+                                        @GetCustomerByIdUseCase.GetCustomerById(GetBookingByIdUseCase.GetBooking(schedule.Court2.BookingId).CustomerId).Name
+                                    </b>
                                 </label>
                             </div>
                             <div class="row">
@@ -82,14 +72,6 @@
                 </tr>
             }
         }
-        <tr>
-            <td>Total all</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>@totalCount</td>
-        </tr>
     </tbody>
 </table>
 
@@ -98,8 +80,6 @@
     public DateTime SelectedDate { get; set; }
 
     private IEnumerable<Schedule> schedules;
-
-    private int totalCount = 0;
 
     protected override void OnParametersSet() {
         base.OnParametersSet();

@@ -136,6 +136,11 @@
             return;
         }
 
+        if (booking.Duration + booking.StartTime > 19) {
+            errorMessage = "Booking duration exceed possible play time";
+            return;
+        }
+
         AddBookingUseCase.Execute(booking);
         newBookings.Add(booking);
         OnAddNewBooking();

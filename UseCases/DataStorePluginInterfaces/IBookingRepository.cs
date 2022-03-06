@@ -24,5 +24,7 @@ namespace UseCases.DataStorePluginInterfaces {
         void RemoveBooking(int id);
 
         IEnumerable<Booking> GetBookingByDate(DateTime date, SportType type);
+
+        void UpdateNumPlayed(int bookingId, bool attendance);
     }
 }
