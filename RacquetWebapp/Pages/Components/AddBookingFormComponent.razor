@@ -117,7 +117,7 @@
 
         InitializeNewBooking(null);
 
-        customers = ViewCustomerUseCase.Execute();
+        customers = ViewCustomerUseCase.Execute().OrderBy(x => x.Name);
         timestamps = GetTimestampUseCase.GetTimestamps();
 
         newBookings = new List<Booking>();

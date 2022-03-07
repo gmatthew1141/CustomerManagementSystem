@@ -47,6 +47,7 @@ namespace Plugins.DataStore.SQL {
         public Booking AddBooking(Booking booking) {
             booking.ExpirationDate = GetExpirationDate(booking.StartDate, booking.NumOfPlay);
             booking.EndTime = GetEndTime(booking.StartTime, booking.Duration);
+            booking.NumOfPlayedLeft = booking.NumOfPlay - booking.NumOfPlayed;
 
             db.Bookings.Add(booking);
             db.SaveChanges();
@@ -108,6 +109,10 @@ namespace Plugins.DataStore.SQL {
             } else {
                 booking.NumOfPlayed--;
             }
+
+            booking.NumOfPlayedLeft = booking.NumOfPlay - booking.NumOfPlayed;
+
+            db.SaveChanges();
         }
 
         private DateTime GetExpirationDate(DateTime startDate, int numOfPlay) {

@@ -55,28 +55,28 @@
 
 @code {
 
-    public IEnumerable<Booking> bookings;
+public IEnumerable<Booking> bookings;
 
-    protected override void OnInitialized() {
-        base.OnInitialized();
-        LoadBooking();
-    }
+protected override void OnInitialized() {
+    base.OnInitialized();
+    LoadBooking();
+}
 
-    private void OnClickAddButton() {
-        NavigationManager.NavigateTo("/addbookings");
-    }
+private void OnClickAddButton() {
+    NavigationManager.NavigateTo("/addbookings");
+}
 
-    private void OnClickEditButton(int bookingId) {
-        NavigationManager.NavigateTo($"/editbooking/{bookingId}");
-    }
+private void OnClickEditButton(int bookingId) {
+    NavigationManager.NavigateTo($"/editbooking/{bookingId}");
+}
 
-    private void OnClickRemoveButton(int bookingId) {
-        RemoveBookingUseCase.Execute(bookingId);
-        LoadBooking();
-    }
+private void OnClickRemoveButton(int bookingId) {
+    RemoveBookingUseCase.Execute(bookingId);
+    LoadBooking();
+}
 
-    private void LoadBooking() {
-        bookings = ViewBookingsUseCase.Execute();
+private void LoadBooking() {
+    bookings = ViewBookingsUseCase.Execute().OrderByDescending(x => x.ExpirationDate);
 
-    }
+}
 }

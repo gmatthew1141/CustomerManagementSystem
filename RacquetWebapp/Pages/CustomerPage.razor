@@ -62,6 +62,6 @@
     }
 
     private void LoadCustomers() {
-        customers = ViewCustomerUseCase.Execute();
+        customers = ViewCustomerUseCase.Execute().OrderBy(x => x.Name);
     }
 }
